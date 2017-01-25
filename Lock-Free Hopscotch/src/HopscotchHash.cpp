@@ -166,8 +166,7 @@ bool HopscotchHash::contains(unsigned int key)
        unsigned int y, index;
        short int Header;
        unsigned long _SlotEntry=0;
-       //_SlotEntry|=key;
-
+        
        for(unsigned int p=0;p<=H ; p++)
        {
             index = InitialSlot + p;
@@ -191,50 +190,32 @@ bool HopscotchHash::Remove(unsigned int key)
 
         bool rem = false;
         unsigned long random;
-        //mutex.lock();
-        //std::cout<<" Removing  " << key << "\n";
-       //for(int p=0;p<HOPSCOTCH;p++)
-        //{
-
-        //}
+        
 
 
         for(int p=0;p<=H;p++)
         {
 
             _SlotEntry=key;
-            //_SlotEntry = (Buckets[InitialSlot + p].load()<<2)>>2;
+             
             rem = Buckets[InitialSlot+p].compare_exchange_strong(_SlotEntry,0);
-            /*if(Buckets[InitialSlot+p].compare_exchange_strong(_SlotEntry,0))
-            {
-
-                //std::cout<<" + " <<"\n";
-                //std::cout<< Buckets[InitialSlot+p].load() << "   "<<_SlotEntry << "\n";
-                rem = true;
-            }*/
-
+             
 
             _SlotEntry|=(1L<<62);
 
             rem = Buckets[InitialSlot+p].compare_exchange_strong(_SlotEntry,0);
-            /*if(Buckets[InitialSlot+p].compare_exchange_strong(_SlotEntry,0))
-            {
-                std::cout<<" - " <<"\n";
-                rem = true;
-            }*/
-
+             
             _SlotEntry = Buckets[InitialSlot + p].load();
             _SlotEntry=((_SlotEntry<<2)>>2)|(3L << 62);
-            //random = rand() % LONG_MAX +1;
+          
             random = INT_MAX;
 
             random=((random<<2)>>2)|(3L << 62);
 
             Buckets[InitialSlot + p].compare_exchange_strong(_SlotEntry, random);
-            //if(Buckets[InitialSlot + p].compare_exchange_strong(_SlotEntry, random))
-            //std::cout<<" * " <<"\n";
+             
         }
-        //mutex.unlock();
+       
         return rem;
 
 }
