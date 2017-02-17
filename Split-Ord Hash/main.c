@@ -13,16 +13,6 @@ unsigned int randArray[TOTDATA];
 int counter=0;
 pthread_mutex_t count_mutex;
 int contains, inserts, deletes;
-/*
- * The hash table in this file is based on the work by Ori Shalev and Nir Shavit
- * Much of the code is similar to the example code they published in their
- * paper "Split-Ordered Lists: Lock-Free Extensible Hash Tables", but has been
- * modified to support additional semantics.
- *
- * NOTE: I did not implement the Dynamic-Sized Array extension, because I don't
- * expect to support large numbers of entries in the table at the same time,
- * and I'm worried about state creep (this algorithm cannot compact well).
- */
 
 #if defined(__STDC__)
 # if defined(__STDC_VERSION__)
